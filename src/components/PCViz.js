@@ -99,17 +99,25 @@ export function PCViz({ width, height }) {
     .scaleLinear()
     .domain([-20, 20])
     .range([margins.left, width - margins.right])
+
   const yScaleBubble = d3
     .scaleLinear()
     .domain([20, -20])
     .range([margins.top, height - margins.bottom])
+
   const circleScale = d3.scaleSqrt().domain([1, 20]).range([10, 50])
 
   const xScaleBars = d3.scaleLinear().domain([0, 100]).range([0, 600])
-  const yScaleBars = d3
-    .scaleOrdinal()
-    .domain(['car', 'white', 'daisy', 'great', 'gin', 'new york', 'gatsby'])
-    .range(d3.range(margins.top, 300, 20))
+  const yScaleBars = d3.scaleOrdinal().domain([]).range(d3.range(margins.top, 300, 20))
+
+  console.log(
+    defaultData
+      .filter((d) => d.topic === 1)[0]
+      .words.sort(function (a, b) {
+        return b.count - a.count
+      }),
+    'sxxs'
+  )
 
   return (
     // BARS DIV
@@ -160,7 +168,7 @@ export function PCViz({ width, height }) {
                 x={xScaleBubble(d.pc1)}
                 y={yScaleBubble(d.pc2) + 4}
                 textAnchor="middle"
-                style={{ 'text-aling': 'middle' }}
+                style={{ textAlign: 'middle' }}
                 opacity={
                   hoveredTextTopic === 'miao' ? 0.5 : d.topic === hoveredTextTopic ? 0.5 : 0.2
                 }
@@ -171,6 +179,7 @@ export function PCViz({ width, height }) {
           ))}
         </svg>
       </div>
+
       <div>
         <BarTitle>Top 30 Most Salient terms</BarTitle>
         <svg width={width} height={height}>
