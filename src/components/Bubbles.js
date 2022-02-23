@@ -54,6 +54,14 @@ export function Bubbles({ width, height }) {
         />
         {bubbleData.map((d, i) => (
           <g key={i}>
+            <text
+              x={xScale(d.pc1)}
+              y={yScale(d.pc2) + 4}
+              textAnchor="middle"
+              style={{ 'text-align': 'middle' }}
+            >
+              {d.topic}
+            </text>
             <circle
               cx={xScale(d.pc1)}
               cy={yScale(d.pc2)}
@@ -61,14 +69,6 @@ export function Bubbles({ width, height }) {
               fill={'#61BFE4'}
               opacity={0.5}
             />
-            <text
-              x={xScale(d.pc1)}
-              y={yScale(d.pc2) + 4}
-              textAnchor="middle"
-              style={{ 'text-aling': 'middle' }}
-            >
-              {d.topic}
-            </text>
           </g>
         ))}
       </svg>

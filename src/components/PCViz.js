@@ -14,41 +14,22 @@ export function PCViz({ width, height }) {
     bottom: 30,
   }
 
-  const barData = [
-    {
-      topic: 1,
-      words: [
-        { word: 'car', count: 24 },
-        { word: 'white', count: 36 },
-        { word: 'great', count: 12 },
-        { word: 'gin', count: 6 },
-        { word: 'new york', count: 30 },
-        { word: 'daisy', count: 87 },
-        { word: 'gatsby', count: 74 },
-        { word: 'boat', count: 23 },
-        { word: 'lake', count: 24 },
-        { word: 'mountain', count: 91 },
-        { word: 'states', count: 45 },
-      ],
-    },
-  ]
-
   const defaultData = [
     {
       topic: 'miao',
       words: [
-        { word: 'car', count: 33, topic: 1 },
-        { word: 'white', count: 33, topic: 2 },
-        { word: 'great', count: 33, topic: 3 },
-        { word: 'gin', count: 33, topic: 4 },
-        { word: 'new york', count: 33, topic: 5 },
-        { word: 'daisy', count: 33, topic: 6 },
-        { word: 'gatsby', count: 33, topic: 1 },
-        { word: 'boat', count: 33, topic: 2 },
-        { word: 'lake', count: 33, topic: 3 },
-        { word: 'mountain', count: 33, topic: 4 },
-        { word: 'states', count: 33, topic: 5 },
-        { word: 'nicolas', count: 33, topic: 5 },
+        { word: 'car', count: 45, topic: 1 },
+        { word: 'white', count: 30, topic: 2 },
+        { word: 'great', count: 26, topic: 3 },
+        { word: 'gin', count: 72, topic: 4 },
+        { word: 'new york', count: 23, topic: 5 },
+        { word: 'daisy', count: 67, topic: 6 },
+        { word: 'gatsby', count: 55, topic: 1 },
+        { word: 'boat', count: 14, topic: 2 },
+        { word: 'lake', count: 11, topic: 3 },
+        { word: 'mountain', count: 13, topic: 4 },
+        { word: 'states', count: 55, topic: 5 },
+        { word: 'nicolas', count: 84, topic: 5 },
       ],
     },
     {
@@ -65,6 +46,7 @@ export function PCViz({ width, height }) {
         { word: 'lake', count: 24 },
         { word: 'mountain', count: 91 },
         { word: 'states', count: 45 },
+        { word: 'jaar', count: 50 },
       ],
     },
     {
@@ -110,14 +92,14 @@ export function PCViz({ width, height }) {
   const xScaleBars = d3.scaleLinear().domain([0, 100]).range([0, 600])
   const yScaleBars = d3.scaleOrdinal().domain([]).range(d3.range(margins.top, 300, 20))
 
-  console.log(
-    defaultData
-      .filter((d) => d.topic === 1)[0]
-      .words.sort(function (a, b) {
-        return b.count - a.count
-      }),
-    'sxxs'
-  )
+  //   console.log(
+  //     defaultData
+  //       .filter((d) => d.topic == hoveredBubbleTopic)[0]
+  //       .words.sort(function (a, b) {
+  //         return b.count - a.count
+  //       }),
+  //     'sxxs'
+  //   )
 
   return (
     // BARS DIV
@@ -155,12 +137,12 @@ export function PCViz({ width, height }) {
                     : 'white'
                 }
                 opacity={
-                  hoveredTextTopic === 'miao' ? 0.7 : d.topic === hoveredTextTopic ? 0.5 : 0.2
+                  hoveredTextTopic === 'miao' ? 0.6 : d.topic === hoveredTextTopic ? 0.6 : 0.2
                 }
                 strokeWidth={hoveredTextTopic === 'miao' ? 0 : d.topic === hoveredTextTopic ? 5 : 0}
                 stroke={'blue'}
                 strokeOpacity={1}
-                style={{ 'transition-property': 'opacity', 'transition-duration': '0.8s' }}
+                style={{ transitionProperty: 'opacity', transitionDuration: '0.6s' }}
                 onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
                 onMouseOut={() => setHoveredBubbleTopic('miao')}
               />
