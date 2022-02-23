@@ -19,7 +19,5 @@ export class App extends React.Component {
 }
 
 const VizContainer = styled.div`
-  font-size: 30
-  display: inline-block
-  background-color: black
+  display: flex;
 `

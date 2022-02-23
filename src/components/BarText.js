@@ -33,7 +33,7 @@ export function BarText({ width, height }) {
   const yScale = d3
     .scaleOrdinal()
     .domain(['car', 'white', 'daisy', 'great', 'gin', 'new york', 'gatsby'])
-    .range(d3.range(margins.top, 300, 15))
+    .range(d3.range(margins.top, 300, 20))
 
   console.log(barData.map((d) => d.words.map((w) => yScale(w.word))))
   console.log(yScale('white'))
@@ -56,11 +56,11 @@ export function BarText({ width, height }) {
                 ry={4}
               />
               <text
-                x={margins.left - 40}
+                x={margins.left + 12}
                 y={yScale(w.word) + 10}
                 fill={'black'}
                 fontSize={12}
-                textAnchor="left"
+                textAnchor="end"
               >
                 {w.word}
               </text>
