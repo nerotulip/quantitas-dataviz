@@ -134,15 +134,24 @@ export function PCViz({ width, height }) {
                     ? '#61BFE4'
                     : hoveredBubbleTopic === d.topic
                     ? '#FD6332'
-                    : 'white'
+                    : '#61BFE4'
                 }
                 opacity={
-                  hoveredTextTopic === 'miao' ? 0.6 : d.topic === hoveredTextTopic ? 0.6 : 0.2
+                  hoveredTextTopic === 'miao'
+                    ? 0.7
+                    : d.topic === hoveredTextTopic || hoveredBubbleTopic === d.topic
+                    ? 0.7
+                    : 0.2
                 }
-                strokeWidth={hoveredTextTopic === 'miao' ? 0 : d.topic === hoveredTextTopic ? 5 : 0}
-                stroke={'blue'}
-                strokeOpacity={1}
-                style={{ transitionProperty: 'opacity', transitionDuration: '0.6s' }}
+                strokeWidth={hoveredTextTopic === 'miao' ? 0 : d.topic === hoveredTextTopic ? 3 : 0}
+                stroke={'#3ca0c7'}
+                strokeOpacity={
+                  hoveredTextTopic === 'miao' ? 1 : d.topic === hoveredTextTopic ? 1 : 0
+                }
+                style={{
+                  transitionProperty: 'opacity',
+                  transitionDuration: '0.6s',
+                }}
                 onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
                 onMouseOut={() => setHoveredBubbleTopic('miao')}
               />
