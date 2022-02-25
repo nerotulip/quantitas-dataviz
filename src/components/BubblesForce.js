@@ -13,10 +13,6 @@ const clustersID = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 console.log(groupBy(dataHuesca, (d) => d.clusterId))
 const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
 
-for (const element in clustersGrouped) {
-  console.log(clustersGrouped[element])
-}
-
 export function BubblesForce({ width, height }) {
   const forceDataMock = [
     {
@@ -98,6 +94,8 @@ export function BubblesForce({ width, height }) {
   //  Manually run simulation
   simulation.tick(50)
 
+  console.log(simulation, 'SIMULATION')
+
   function simulationForces(clusterData, clusterIndex) {
     const simulation = d3
 
@@ -113,6 +111,11 @@ export function BubblesForce({ width, height }) {
     simulation.tick(50)
 
     return simulation
+  }
+
+  for (const element in clustersGrouped) {
+    const data = clustersGrouped[element]
+    console.log(simulationForces(data, element), 'XX')
   }
 
   return (
