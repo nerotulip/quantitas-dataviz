@@ -9,7 +9,7 @@ export class App extends React.Component {
       <div>
         <HomeViz />
         <PCViz width={800} height={900} />
-        <BubblesForce width={800} height={900} />
+        <BubblesForce width={800} height={600} />
       </div>
     )
   }

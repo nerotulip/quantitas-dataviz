@@ -58,7 +58,7 @@ export function Bubbles({ width, height }) {
               x={xScale(d.pc1)}
               y={yScale(d.pc2) + 4}
               textAnchor="middle"
-              style={{ 'text-align': 'middle' }}
+              style={{ textAlign: 'middle' }}
             >
               {d.topic}
             </text>
