@@ -54,12 +54,23 @@ export function BubblesForce({ width, height }) {
     },
   ]
 
-  const circleScale = d3.scaleSqrt().domain([1, 20]).range([5, 60])
+  const circleScale = d3.scaleSqrt().domain([1, 20]).range([5, 20])
 
   const xScale = d3
     .scaleLinear()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    .range([100, 200, 300, 400, 500, 100, 200, 300, 400, 500])
+    .range([
+      100 + 100,
+      300 + 100,
+      500 + 100,
+      700 + 100,
+      900 + 100,
+      100 + 100,
+      300 + 100,
+      500 + 100,
+      700 + 100,
+      900 + 100,
+    ])
 
   const yScale = d3
     .scaleLinear()
@@ -80,7 +91,6 @@ export function BubblesForce({ width, height }) {
     .range(['#B2D329', '#FF9900', '#61BFE4', '#5768FF', '#589322', '#BA3AE1', '#FF5A5A'])
 
   const simulation = d3
-    // .forceSimulation(forceData.filter((d) => d.LivingLab === 'Huesca province'))
     .forceSimulation(forceDataMock)
     .force('charge', d3.forceManyBody().strength(60))
     .force('center', d3.forceCenter(width / 2, height / 2))
@@ -109,7 +119,7 @@ export function BubblesForce({ width, height }) {
           return circleScale(d.nReviews)
         })
       )
-    simulation.tick(50)
+    simulation.tick(100)
 
     return simulation
   }
@@ -127,9 +137,8 @@ export function BubblesForce({ width, height }) {
       <svg width={width} height={height}>
         {/* GHOST CIRCLES, STROKE EFFECT */}
         <g>
-          {forceDataMock
-            // .filter((d) => d.LivingLab === 'Huesca province')
-            .map((d, i) => (
+          {range(10).map((index) =>
+            clustersGrouped[index].map((d, i) => (
               <circle
                 key={i}
                 r={circleScale(d.nReviews)}
@@ -141,7 +150,8 @@ export function BubblesForce({ width, height }) {
                 stroke={'#E7E7E7'}
                 strokeWidth={25}
               />
-            ))}
+            ))
+          )}
         </g>
         {/* REAL CIRCLES */}
         {range(10).map((index) =>
