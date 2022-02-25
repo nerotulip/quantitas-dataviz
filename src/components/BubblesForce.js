@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import styled from 'styled-components'
 import * as forceData from '../data/clustersLau.json'
 import { scaleLinear } from 'd3'
-import { groupBy } from 'lodash'
+import { groupBy, range } from 'lodash'
 
 console.log(forceData)
 const dataHuesca = forceData.filter((d) => d.zone === 'benasque')
@@ -95,6 +95,7 @@ export function BubblesForce({ width, height }) {
   simulation.tick(50)
 
   console.log(simulation, 'SIMULATION')
+  console.log(forceDataMock, 'forceDataMock')
 
   function simulationForces(clusterData, clusterIndex) {
     const simulation = d3
@@ -112,12 +113,15 @@ export function BubblesForce({ width, height }) {
 
     return simulation
   }
+  const arrayWForces = []
 
   for (const element in clustersGrouped) {
     const data = clustersGrouped[element]
     console.log(simulationForces(data, element), 'XX')
+    arrayWForces.push(simulationForces(data, element))
   }
-
+  console.log(arrayWForces)
+  console.log(clustersGrouped[1])
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
       <svg width={width} height={height}>
@@ -132,7 +136,7 @@ export function BubblesForce({ width, height }) {
                 index={i}
                 cx={d.x}
                 cy={d.y}
-                fill={''}
+                fill={colorScale(d.macro)}
                 strokeOpacity={1}
                 stroke={'#E7E7E7'}
                 strokeWidth={25}
@@ -140,8 +144,8 @@ export function BubblesForce({ width, height }) {
             ))}
         </g>
         {/* REAL CIRCLES */}
-        <g>
-          {forceDataMock.map((d, i) => (
+        {range(10).map((index) =>
+          clustersGrouped[index].map((d, i) => (
             <circle
               key={i}
               r={circleScale(d.nReviews)}
@@ -150,8 +154,8 @@ export function BubblesForce({ width, height }) {
               cy={d.y}
               fill={colorScale(d.macro)}
             />
-          ))}
-        </g>
+          ))
+        )}
       </svg>
     </div>
   )
