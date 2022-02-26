@@ -8,10 +8,10 @@ export function PCViz({ width, height }) {
   const [hoveredWord, setHoveredWord] = useState('')
 
   const margins = {
-    top: 30,
-    right: 20,
+    top: 50,
+    right: 50,
     left: 50,
-    bottom: 30,
+    bottom: 50,
   }
 
   const defaultData = [
@@ -175,8 +175,8 @@ export function PCViz({ width, height }) {
                   transitionProperty: 'opacity',
                   transitionDuration: '0.6s',
                 }}
-                onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
-                onMouseOut={() => setHoveredBubbleTopic('standard')}
+                // onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
+                // onMouseOut={() => setHoveredBubbleTopic('standard')}
               />
               <text
                 x={xScaleBubble(d.pc1)}
@@ -189,6 +189,16 @@ export function PCViz({ width, height }) {
               >
                 {d.topic}
               </text>
+              {/* CIRCLES FOR HOVER */}
+              <circle
+                cx={xScaleBubble(d.pc1)}
+                cy={yScaleBubble(d.pc2)}
+                r={circleScale(d.sizeArea) + 1}
+                fill={'white'}
+                opacity={0}
+                onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
+                onMouseOut={() => setHoveredBubbleTopic('standard')}
+              />
             </g>
           ))}
         </svg>

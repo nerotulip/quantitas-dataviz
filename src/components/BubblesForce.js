@@ -58,7 +58,7 @@ export function BubblesForce({ width, height }) {
     },
   ]
 
-  const circleScale = d3.scaleSqrt().domain([0, 20]).range([5, 20])
+  const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
 
   const xScale = d3
     .scaleLinear()
