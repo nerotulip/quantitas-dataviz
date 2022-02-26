@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import * as d3 from 'd3'
+import { range } from 'lodash'
 
 export function PCViz({ width, height }) {
   const [hoveredTextTopic, setHoveredTextTopic] = useState('standard')
@@ -113,14 +114,34 @@ export function PCViz({ width, height }) {
     .domain([])
     .range(d3.range(margins.top, height - margins.bottom, 20))
 
-  //   console.log(
-  //     defaultData
-  //       .filter((d) => d.topic == hoveredBubbleTopic)[0]
-  //       .words.sort(function (a, b) {
-  //         return b.count - a.count
-  //       }),
-  //     'sxxs'
-  //   )
+  console.log(
+    defaultData
+      .filter((d) => d.topic == hoveredBubbleTopic)[0]
+      .words.sort(function (a, b) {
+        return b.count - a.count
+      }),
+    'ORDERING1'
+  )
+
+  console.log(
+    range(3).map((index) =>
+      defaultData[index].words.sort(function (a, b) {
+        return b.count - a.count
+      })
+    )
+  )
+
+  const orderedDefaultData = range(3).map((index) =>
+    defaultData[index].words.sort(function (a, b) {
+      return b.count - a.count
+    })
+  )
+
+  console.log(
+    orderedDefaultData.filter((d) => d.topic === '1'),
+    'ORDERED DEFAULT FILTERED'
+  )
+  console.log(defaultData, 'DEFAULT DATA')
 
   return (
     // BUBBLES DIV
