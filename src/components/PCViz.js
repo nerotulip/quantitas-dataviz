@@ -86,6 +86,13 @@ export function PCViz({ width, height }) {
     },
   ]
 
+  const orderedData = defaultData.map((d) => ({
+    ...d,
+    words: d.words.sort(function (a, b) {
+      return b.count - a.count
+    }),
+  }))
+
   const bubbleData = [
     { topic: 1, sizeArea: 10, pc1: 7, pc2: 13 },
     { topic: 2, sizeArea: 4, pc1: 2, pc2: -5 },
@@ -113,35 +120,6 @@ export function PCViz({ width, height }) {
     .scaleOrdinal()
     .domain([])
     .range(d3.range(margins.top, height - margins.bottom, 20))
-
-  console.log(
-    defaultData
-      .filter((d) => d.topic == hoveredBubbleTopic)[0]
-      .words.sort(function (a, b) {
-        return b.count - a.count
-      }),
-    'ORDERING1'
-  )
-
-  console.log(
-    range(3).map((index) =>
-      defaultData[index].words.sort(function (a, b) {
-        return b.count - a.count
-      })
-    )
-  )
-
-  const orderedDefaultData = range(3).map((index) =>
-    defaultData[index].words.sort(function (a, b) {
-      return b.count - a.count
-    })
-  )
-
-  console.log(
-    orderedDefaultData.filter((d) => d.topic === '1'),
-    'ORDERED DEFAULT FILTERED'
-  )
-  console.log(defaultData, 'DEFAULT DATA')
 
   return (
     // BUBBLES DIV
@@ -228,7 +206,7 @@ export function PCViz({ width, height }) {
       <div>
         <BarTitle>Top 30 Most Salient terms</BarTitle>
         <svg width={width} height={height}>
-          {defaultData
+          {orderedData
             .filter((d) => d.topic === hoveredBubbleTopic)
             .map((d) =>
               d.words.map((w, i) => (
