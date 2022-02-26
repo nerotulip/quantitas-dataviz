@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import * as d3 from 'd3'
 
 export function PCViz({ width, height }) {
-  const [hoveredTextTopic, setHoveredTextTopic] = useState('miao')
-  const [hoveredBubbleTopic, setHoveredBubbleTopic] = useState('miao')
+  const [hoveredTextTopic, setHoveredTextTopic] = useState('standard')
+  const [hoveredBubbleTopic, setHoveredBubbleTopic] = useState('standard')
   const [hoveredWord, setHoveredWord] = useState('')
 
   const margins = {
@@ -16,7 +16,7 @@ export function PCViz({ width, height }) {
 
   const defaultData = [
     {
-      topic: 'miao',
+      topic: 'standard',
       words: [
         { word: 'car', count: 45, topic: 1 },
         { word: 'white', count: 30, topic: 2 },
@@ -30,6 +30,24 @@ export function PCViz({ width, height }) {
         { word: 'mountain', count: 13, topic: 4 },
         { word: 'states', count: 55, topic: 5 },
         { word: 'nicolas', count: 84, topic: 5 },
+        { word: 'piano', count: 45, topic: 1 },
+        { word: 'red', count: 30, topic: 2 },
+        { word: 'shoe', count: 26, topic: 3 },
+        { word: 'knit', count: 72, topic: 4 },
+        { word: 'shop', count: 23, topic: 5 },
+        { word: 'street', count: 67, topic: 6 },
+        { word: 'bike', count: 55, topic: 1 },
+        { word: 'light', count: 14, topic: 2 },
+        { word: 'fish', count: 11, topic: 3 },
+        { word: 'strike', count: 13, topic: 4 },
+        { word: 'noise', count: 55, topic: 5 },
+        { word: 'random', count: 84, topic: 5 },
+        { word: 'sea', count: 55, topic: 1 },
+        { word: 'ocean', count: 14, topic: 2 },
+        { word: 'ship', count: 11, topic: 3 },
+        { word: 'flight', count: 13, topic: 4 },
+        { word: 'sonata', count: 55, topic: 5 },
+        { word: 'adagio', count: 84, topic: 5 },
       ],
     },
     {
@@ -90,7 +108,10 @@ export function PCViz({ width, height }) {
   const circleScale = d3.scaleSqrt().domain([1, 20]).range([10, 50])
 
   const xScaleBars = d3.scaleLinear().domain([0, 100]).range([0, 600])
-  const yScaleBars = d3.scaleOrdinal().domain([]).range(d3.range(margins.top, 300, 20))
+  const yScaleBars = d3
+    .scaleOrdinal()
+    .domain([])
+    .range(d3.range(margins.top, height - margins.bottom, 20))
 
   //   console.log(
   //     defaultData
@@ -102,7 +123,7 @@ export function PCViz({ width, height }) {
   //   )
 
   return (
-    // BARS DIV
+    // BUBBLES DIV
     <div style={{ display: 'flex', backgroundColor: '#F6F6F6' }}>
       <div>
         <BubbleTitle>Intertopic Distance Map (via multidimensional scaling)</BubbleTitle>
@@ -130,30 +151,32 @@ export function PCViz({ width, height }) {
                 cy={yScaleBubble(d.pc2)}
                 r={circleScale(d.sizeArea)}
                 fill={
-                  hoveredBubbleTopic === 'miao'
+                  hoveredBubbleTopic === 'standard'
                     ? '#61BFE4'
                     : hoveredBubbleTopic === d.topic
                     ? '#FD6332'
                     : '#61BFE4'
                 }
                 opacity={
-                  hoveredTextTopic === 'miao'
-                    ? 0.7
-                    : d.topic === hoveredTextTopic || hoveredBubbleTopic === d.topic
+                  hoveredTextTopic === 'standard' ||
+                  hoveredBubbleTopic === d.topic ||
+                  hoveredTextTopic === d.topic
                     ? 0.7
                     : 0.2
                 }
-                strokeWidth={hoveredTextTopic === 'miao' ? 0 : d.topic === hoveredTextTopic ? 3 : 0}
+                strokeWidth={
+                  hoveredTextTopic === 'standard' ? 0 : d.topic === hoveredTextTopic ? 3 : 0
+                }
                 stroke={'#3ca0c7'}
                 strokeOpacity={
-                  hoveredTextTopic === 'miao' ? 1 : d.topic === hoveredTextTopic ? 1 : 0
+                  hoveredTextTopic === 'standard' ? 1 : d.topic === hoveredTextTopic ? 1 : 0
                 }
                 style={{
                   transitionProperty: 'opacity',
                   transitionDuration: '0.6s',
                 }}
                 onMouseEnter={() => setHoveredBubbleTopic(d.topic)}
-                onMouseOut={() => setHoveredBubbleTopic('miao')}
+                onMouseOut={() => setHoveredBubbleTopic('standard')}
               />
               <text
                 x={xScaleBubble(d.pc1)}
@@ -161,7 +184,7 @@ export function PCViz({ width, height }) {
                 textAnchor="middle"
                 style={{ textAlign: 'middle' }}
                 opacity={
-                  hoveredTextTopic === 'miao' ? 0.5 : d.topic === hoveredTextTopic ? 0.5 : 0.2
+                  hoveredTextTopic === 'standard' ? 0.5 : d.topic === hoveredTextTopic ? 0.5 : 0.2
                 }
               >
                 {d.topic}
@@ -170,7 +193,7 @@ export function PCViz({ width, height }) {
           ))}
         </svg>
       </div>
-
+      {/* // BARS DIV */}
       <div>
         <BarTitle>Top 30 Most Salient terms</BarTitle>
         <svg width={width} height={height}>
@@ -186,7 +209,7 @@ export function PCViz({ width, height }) {
                     height={10}
                     key={i}
                     fill={
-                      hoveredBubbleTopic === 'miao'
+                      hoveredBubbleTopic === 'standard'
                         ? '#61BFE4'
                         : hoveredBubbleTopic === d.topic
                         ? '#FD6332'
@@ -200,7 +223,7 @@ export function PCViz({ width, height }) {
                       setHoveredWord(w.word)
                     }}
                     onMouseOut={() => {
-                      setHoveredTextTopic('miao')
+                      setHoveredTextTopic('standard')
                       setHoveredWord('')
                     }}
                   />
@@ -214,6 +237,14 @@ export function PCViz({ width, height }) {
                       hoveredWord === '' ? 'regulare' : hoveredWord === w.word ? 'bold' : 'regular'
                     }
                     opacity={hoveredWord === '' ? 1 : hoveredWord === w.word ? 1 : 0.5}
+                    onMouseEnter={() => {
+                      setHoveredTextTopic(w.topic)
+                      setHoveredWord(w.word)
+                    }}
+                    onMouseOut={() => {
+                      setHoveredTextTopic('standard')
+                      setHoveredWord('')
+                    }}
                   >
                     {w.word}
                   </text>

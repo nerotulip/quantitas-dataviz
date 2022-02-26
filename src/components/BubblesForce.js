@@ -3,15 +3,19 @@ import * as d3 from 'd3'
 import styled from 'styled-components'
 import * as forceData from '../data/clustersLau.json'
 import { scaleLinear } from 'd3'
-import { groupBy, range } from 'lodash'
+import { groupBy, uniqBy, range } from 'lodash'
+import { Legend } from './Legend'
+import './dropmenu.css'
 
-console.log(forceData)
+const zones = forceData.map((d) => d.zone)
+const uniqueZones = [...new Set(zones)]
+console.log(uniqueZones)
+
 const dataHuesca = forceData.filter((d) => d.zone === 'benasque')
-
-const clustersID = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 console.log(groupBy(dataHuesca, (d) => d.clusterId))
 const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
+console.log(clustersGrouped, 'AAA')
 
 export function BubblesForce({ width, height }) {
   const forceDataMock = [
@@ -54,7 +58,7 @@ export function BubblesForce({ width, height }) {
     },
   ]
 
-  const circleScale = d3.scaleSqrt().domain([1, 20]).range([5, 20])
+  const circleScale = d3.scaleSqrt().domain([0, 20]).range([5, 20])
 
   const xScale = d3
     .scaleLinear()
@@ -123,17 +127,23 @@ export function BubblesForce({ width, height }) {
 
     return simulation
   }
-  const arrayWForces = []
 
   for (const element in clustersGrouped) {
     const data = clustersGrouped[element]
     console.log(simulationForces(data, element), 'XX')
-    arrayWForces.push(simulationForces(data, element))
   }
-  console.log(arrayWForces)
-  console.log(clustersGrouped[1])
+
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
+      <div style={{ width: '200px' }}>
+        <select className="search_categories" id="search_categories">
+          {uniqueZones.map((d, i) => (
+            <option key={i} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+      </div>
       <svg width={width} height={height}>
         {/* GHOST CIRCLES, STROKE EFFECT */}
         <g>
@@ -167,6 +177,7 @@ export function BubblesForce({ width, height }) {
           ))
         )}
       </svg>
+      <Legend width={width} height={height} />
     </div>
   )
 }
