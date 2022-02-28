@@ -161,7 +161,7 @@ export function PCViz({ width, height }) {
                   hoveredBubbleTopic === d.topic ||
                   hoveredTextTopic === d.topic
                     ? 0.7
-                    : 0.2
+                    : 0.15
                 }
                 strokeWidth={
                   hoveredTextTopic === 'standard' ? 0 : d.topic === hoveredTextTopic ? 3 : 0

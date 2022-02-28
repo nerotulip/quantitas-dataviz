@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as d3 from 'd3'
 import styled from 'styled-components'
 import * as forceData from '../data/clustersLau.json'
 import { scaleLinear } from 'd3'
 import { groupBy, uniqBy, range } from 'lodash'
 import { Legend } from './Legend'
+import { TooltipBubble } from './TooltipBubble'
 import './dropmenu.css'
 
 const zones = forceData.map((d) => d.zone)
@@ -16,8 +17,52 @@ const dataHuesca = forceData.filter((d) => d.zone === 'benasque')
 console.log(groupBy(dataHuesca, (d) => d.clusterId))
 const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
 console.log(clustersGrouped, 'AAA')
+const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
+const xScale = d3
+  .scaleLinear()
+  .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  .range([
+    100 + 100,
+    300 + 100,
+    500 + 100,
+    700 + 100,
+    900 + 100,
+    100 + 100,
+    300 + 100,
+    500 + 100,
+    700 + 100,
+    900 + 100,
+  ])
+
+const yScale = d3
+  .scaleLinear()
+  .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+  .range([200, 200, 200, 200, 200, 500, 500, 500, 500, 500])
+function simulationForces(clusterData, clusterIndex) {
+  const simulation = d3
+
+    .forceSimulation(clusterData)
+    .force('charge', d3.forceManyBody().strength(60))
+    .force('center', d3.forceCenter(xScale(clusterIndex), yScale(clusterIndex)))
+    .force(
+      'collision',
+      d3.forceCollide().radius(function (d) {
+        return circleScale(d.nReviews)
+      })
+    )
+  simulation.tick(150)
+
+  return simulation
+}
+
+for (const element in clustersGrouped) {
+  const data = clustersGrouped[element]
+  simulationForces(data, element)
+}
 
 export function BubblesForce({ width, height }) {
+  const [hoveredBubble, setHoveredBubble] = useState(null)
+  const [selectedZone, setSelectedZone] = useState('benasque')
   const forceDataMock = [
     {
       clusterID: 0,
@@ -58,29 +103,6 @@ export function BubblesForce({ width, height }) {
     },
   ]
 
-  const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
-
-  const xScale = d3
-    .scaleLinear()
-    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    .range([
-      100 + 100,
-      300 + 100,
-      500 + 100,
-      700 + 100,
-      900 + 100,
-      100 + 100,
-      300 + 100,
-      500 + 100,
-      700 + 100,
-      900 + 100,
-    ])
-
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    .range([200, 200, 200, 200, 200, 500, 500, 500, 500, 500])
-
   const colorScale = d3
     .scaleOrdinal()
     .domain([
@@ -88,7 +110,7 @@ export function BubblesForce({ width, height }) {
       'Bars and Clubs',
       'Entertainment and events',
       'Transports and services',
-      'Natural Sites',
+      'Natural sites',
       'Shopping',
       'Relax and Wellness',
     ])
@@ -111,28 +133,7 @@ export function BubblesForce({ width, height }) {
   console.log(simulation, 'SIMULATION')
   console.log(forceDataMock, 'forceDataMock')
 
-  function simulationForces(clusterData, clusterIndex) {
-    const simulation = d3
-
-      .forceSimulation(clusterData)
-      .force('charge', d3.forceManyBody().strength(60))
-      .force('center', d3.forceCenter(xScale(clusterIndex), yScale(clusterIndex)))
-      .force(
-        'collision',
-        d3.forceCollide().radius(function (d) {
-          return circleScale(d.nReviews)
-        })
-      )
-    simulation.tick(100)
-
-    return simulation
-  }
-
-  for (const element in clustersGrouped) {
-    const data = clustersGrouped[element]
-    console.log(simulationForces(data, element), 'XX')
-  }
-
+  console.log(hoveredBubble)
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
       <div style={{ width: '200px' }}>
@@ -165,18 +166,30 @@ export function BubblesForce({ width, height }) {
         </g>
         {/* REAL CIRCLES */}
         {range(10).map((index) =>
-          clustersGrouped[index].map((d, i) => (
+          clustersGrouped[index].map((bubble, i) => (
             <circle
               key={i}
-              r={circleScale(d.nReviews)}
+              r={circleScale(bubble.nReviews)}
               index={i}
-              cx={d.x}
-              cy={d.y}
-              fill={colorScale(d.macro)}
+              cx={bubble.x}
+              cy={bubble.y}
+              fill={colorScale(bubble.macro)}
+              onMouseOver={() => setHoveredBubble(bubble)}
+              onMouseOut={() => setHoveredBubble(null)}
             />
           ))
         )}
       </svg>
+
+      {hoveredBubble ? (
+        <TooltipBubble
+          hoveredBubble={hoveredBubble}
+          x={hoveredBubble.x}
+          y={hoveredBubble.y}
+          colorScale={colorScale}
+        />
+      ) : null}
+
       <Legend width={width} height={height} />
     </div>
   )
