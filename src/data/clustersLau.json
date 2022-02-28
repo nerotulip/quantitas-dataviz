@@ -12599,7 +12599,6 @@
     "LivingLab": "The Rotterdam Metropolitan Region",
     "Geo Level": "LAU"
   },
-  { "zone": "###", "clusterId": "###", "macro": "###", "Geo Level": "LAU" },
   {
     "zone": "ridderkerk",
     "clusterId": "5",
@@ -14224,7 +14223,6 @@
     "LivingLab": "City of Split metropolitan area",
     "Geo Level": "LAU"
   },
-  { "zone": "###", "clusterId": "###", "macro": "###", "Geo Level": "LAU" },
   {
     "zone": "sinj",
     "clusterId": "4",
@@ -17865,7 +17863,6 @@
     "LivingLab": "The Scheldeland region",
     "Geo Level": "LAU"
   },
-  { "zone": "###", "clusterId": "###", "macro": "###", "Geo Level": "LAU" },
   {
     "zone": "willebroek",
     "clusterId": "9",

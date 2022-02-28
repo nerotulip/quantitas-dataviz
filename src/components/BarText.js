@@ -54,9 +54,6 @@ export function BarText({ width, height }) {
     .domain(['car', 'white', 'daisy', 'great', 'gin', 'new york', 'gatsby'])
     .range(d3.range(margins.top, 300, 20))
 
-  console.log(barData.map((d) => d.words.map((w) => yScale(w.word))))
-  console.log(yScale('white'))
-  console.log(xScale(87))
   return (
     <div>
       <BarTitle>Top 30 Most Salient terms</BarTitle>
