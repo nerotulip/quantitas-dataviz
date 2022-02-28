@@ -120,12 +120,14 @@ export function BubblesForce({ width, height }) {
           ))}
         </select>
       </div>
-      <ForcesComponent
-        width={width}
-        height={height}
-        clustersGrouped={clustersGrouped}
-        circleScale={circleScale}
-      />
+      <div>
+        <ForcesComponent
+          width={width}
+          height={height}
+          clustersGrouped={clustersGrouped}
+          circleScale={circleScale}
+        />
+      </div>
       <div>
         {' '}
         <Legend width={width} height={height} />

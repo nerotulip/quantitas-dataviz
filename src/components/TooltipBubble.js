@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React from 'react'
 
 export function TooltipBubble({ hoveredBubble, x, y, colorScale }) {
   const styles = {
     left: `${x + 5}px`,
     top: `${y - 690}px`,
     position: 'relative',
-    width: '180px',
-    height: '70px',
+    width: '200px',
+
     color: 'black',
-    'box-shadow': `0 4px 15px`,
+    'box-shadow': `0 4px 14px`,
     'border-radius': 15,
     'background-color': '#FFFEFE',
+    'text-align': 'left',
+    padding: '9px 14px ',
   }
   return (
     <div className="TooltipBubble" style={styles}>

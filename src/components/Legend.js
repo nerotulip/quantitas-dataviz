@@ -3,16 +3,22 @@ import styled from 'styled-components'
 import * as d3 from 'd3'
 
 export function Legend({ width, height }) {
+  const styles = {
+    left: `86px`,
+    top: `50px`,
+    position: 'relative',
+    width: '570px',
+    height: '165px',
+    color: 'black',
+    'box-shadow': `0 4px 15px`,
+    'border-radius': 15,
+    'background-color': '#FFFEFE',
+  }
   return (
-    <svg width={width} height={height}>
-      <defs>
-        <filter id="f2" x="0" y="0" width="110%" height="110%">
-          <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
-          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
-          <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-        </filter>
-      </defs>
-      <rect x={100} y={0} fill={'#FFFEFE'} width={570} height={165} rx={15} filter="url(#f2)" />
-    </svg>
+    <div>
+      <div className="TooltipBubble" style={styles}>
+        ofelia
+      </div>
+    </div>
   )
 }
