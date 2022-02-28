@@ -1,27 +1,27 @@
 import React, { useState } from 'react'
 import * as d3 from 'd3'
-import styled from 'styled-components'
 import * as forceData from '../data/clustersLau.json'
-import { scaleLinear } from 'd3'
-import { groupBy, uniqBy, range } from 'lodash'
+import { groupBy, range } from 'lodash'
 import { Legend } from './Legend'
 import { TooltipBubble } from './TooltipBubble'
 import './dropmenu.css'
 
 export function BubblesForce({ width, height }) {
   const [hoveredBubble, setHoveredBubble] = useState('')
-
-  const zones = forceData.map((d) => d.zone)
-  const uniqueZones = [...new Set(zones)]
-  console.log(uniqueZones)
   const [selectedZone, setSelectedZone] = useState('benasque')
+
+  const uniqueZones = [...new Set(forceData.map((d) => d.zone))]
+  console.log(uniqueZones, 'UNIQUE ZONES')
 
   const dataHuesca = forceData.filter((d) => d.zone === selectedZone)
 
   console.log(groupBy(dataHuesca, (d) => d.clusterId))
   const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
   console.log(clustersGrouped, 'AAA')
+
+  // SCALES
   const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
+
   const xScale = d3
     .scaleLinear()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
@@ -42,6 +42,20 @@ export function BubblesForce({ width, height }) {
     .scaleLinear()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     .range([200, 200, 200, 200, 200, 500, 500, 500, 500, 500])
+
+  const colorScale = d3
+    .scaleOrdinal()
+    .domain([
+      'Tour and Activities',
+      'Bars and Clubs',
+      'Entertainment and events',
+      'Transports and services',
+      'Natural sites',
+      'Shopping',
+      'Relax and wellness',
+    ])
+    .range(['#B2D329', '#FF9900', '#61BFE4', '#5768FF', '#589322', '#BA3AE1', '#FF5A5A'])
+
   function simulationForces(clusterData, clusterIndex) {
     const simulation = d3
 
@@ -104,37 +118,22 @@ export function BubblesForce({ width, height }) {
     },
   ]
 
-  const colorScale = d3
-    .scaleOrdinal()
-    .domain([
-      'Tour and Activities',
-      'Bars and Clubs',
-      'Entertainment and events',
-      'Transports and services',
-      'Natural sites',
-      'Shopping',
-      'Relax and wellness',
-    ])
-    .range(['#B2D329', '#FF9900', '#61BFE4', '#5768FF', '#589322', '#BA3AE1', '#FF5A5A'])
+  // const simulation = d3
+  //   .forceSimulation(forceDataMock)
+  //   .force('charge', d3.forceManyBody().strength(60))
+  //   .force('center', d3.forceCenter(width / 2, height / 2))
+  //   .force(
+  //     'collision',
+  //     d3.forceCollide().radius(function (d) {
+  //       return circleScale(d.nReviews)
+  //     })
+  //   )
 
-  const simulation = d3
-    .forceSimulation(forceDataMock)
-    .force('charge', d3.forceManyBody().strength(60))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force(
-      'collision',
-      d3.forceCollide().radius(function (d) {
-        return circleScale(d.nReviews)
-      })
-    )
+  // //  Manually run simulation
+  // simulation.tick(50)
 
-  //  Manually run simulation
-  simulation.tick(50)
-
-  console.log(simulation, 'SIMULATION')
   console.log(forceDataMock, 'forceDataMock')
 
-  console.log(hoveredBubble)
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
       <div style={{ width: '200px' }}>
