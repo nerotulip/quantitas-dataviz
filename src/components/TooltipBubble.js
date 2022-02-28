@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export function TooltipBubble({ hoveredBubble, x, y, colorScale }) {
   const styles = {
-    left: `${x}px`,
+    left: `${x + 5}px`,
     top: `${y - 600}px`,
     position: 'relative',
     width: '180px',

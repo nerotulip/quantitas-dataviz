@@ -8,61 +8,62 @@ import { Legend } from './Legend'
 import { TooltipBubble } from './TooltipBubble'
 import './dropmenu.css'
 
-const zones = forceData.map((d) => d.zone)
-const uniqueZones = [...new Set(zones)]
-console.log(uniqueZones)
-
-const dataHuesca = forceData.filter((d) => d.zone === 'benasque')
-
-console.log(groupBy(dataHuesca, (d) => d.clusterId))
-const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
-console.log(clustersGrouped, 'AAA')
-const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
-const xScale = d3
-  .scaleLinear()
-  .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-  .range([
-    100 + 100,
-    300 + 100,
-    500 + 100,
-    700 + 100,
-    900 + 100,
-    100 + 100,
-    300 + 100,
-    500 + 100,
-    700 + 100,
-    900 + 100,
-  ])
-
-const yScale = d3
-  .scaleLinear()
-  .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-  .range([200, 200, 200, 200, 200, 500, 500, 500, 500, 500])
-function simulationForces(clusterData, clusterIndex) {
-  const simulation = d3
-
-    .forceSimulation(clusterData)
-    .force('charge', d3.forceManyBody().strength(60))
-    .force('center', d3.forceCenter(xScale(clusterIndex), yScale(clusterIndex)))
-    .force(
-      'collision',
-      d3.forceCollide().radius(function (d) {
-        return circleScale(d.nReviews)
-      })
-    )
-  simulation.tick(150)
-
-  return simulation
-}
-
-for (const element in clustersGrouped) {
-  const data = clustersGrouped[element]
-  simulationForces(data, element)
-}
-
 export function BubblesForce({ width, height }) {
-  const [hoveredBubble, setHoveredBubble] = useState(null)
+  const [hoveredBubble, setHoveredBubble] = useState('')
+
+  const zones = forceData.map((d) => d.zone)
+  const uniqueZones = [...new Set(zones)]
+  console.log(uniqueZones)
   const [selectedZone, setSelectedZone] = useState('benasque')
+
+  const dataHuesca = forceData.filter((d) => d.zone === selectedZone)
+
+  console.log(groupBy(dataHuesca, (d) => d.clusterId))
+  const clustersGrouped = groupBy(dataHuesca, (d) => d.clusterId)
+  console.log(clustersGrouped, 'AAA')
+  const circleScale = d3.scaleSqrt().domain([0, 20]).range([0, 20])
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    .range([
+      100 + 100,
+      300 + 100,
+      500 + 100,
+      700 + 100,
+      900 + 100,
+      100 + 100,
+      300 + 100,
+      500 + 100,
+      700 + 100,
+      900 + 100,
+    ])
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    .range([200, 200, 200, 200, 200, 500, 500, 500, 500, 500])
+  function simulationForces(clusterData, clusterIndex) {
+    const simulation = d3
+
+      .forceSimulation(clusterData)
+      .force('charge', d3.forceManyBody().strength(60))
+      .force('center', d3.forceCenter(xScale(clusterIndex), yScale(clusterIndex)))
+      .force(
+        'collision',
+        d3.forceCollide().radius(function (d) {
+          return circleScale(d.nReviews)
+        })
+      )
+    simulation.tick(150)
+
+    return simulation
+  }
+
+  for (const element in clustersGrouped) {
+    const data = clustersGrouped[element]
+    simulationForces(data, element)
+  }
+
   const forceDataMock = [
     {
       clusterID: 0,
@@ -112,7 +113,7 @@ export function BubblesForce({ width, height }) {
       'Transports and services',
       'Natural sites',
       'Shopping',
-      'Relax and Wellness',
+      'Relax and wellness',
     ])
     .range(['#B2D329', '#FF9900', '#61BFE4', '#5768FF', '#589322', '#BA3AE1', '#FF5A5A'])
 
@@ -137,7 +138,11 @@ export function BubblesForce({ width, height }) {
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
       <div style={{ width: '200px' }}>
-        <select className="search_categories" id="search_categories">
+        <select
+          className="search_categories"
+          id="search_categories"
+          onChange={() => setSelectedZone(document.getElementById('search_categories').value)}
+        >
           {uniqueZones.map((d, i) => (
             <option key={i} value={d}>
               {d}
@@ -173,9 +178,11 @@ export function BubblesForce({ width, height }) {
               index={i}
               cx={bubble.x}
               cy={bubble.y}
+              stroke={'black'}
+              strokeWidth={hoveredBubble === bubble ? 1 : 0}
               fill={colorScale(bubble.macro)}
               onMouseOver={() => setHoveredBubble(bubble)}
-              onMouseOut={() => setHoveredBubble(null)}
+              onMouseOut={() => setHoveredBubble('')}
             />
           ))
         )}
@@ -189,8 +196,10 @@ export function BubblesForce({ width, height }) {
           colorScale={colorScale}
         />
       ) : null}
-
-      <Legend width={width} height={height} />
+      <div>
+        {' '}
+        <Legend width={width} height={height} />
+      </div>
     </div>
   )
 }
