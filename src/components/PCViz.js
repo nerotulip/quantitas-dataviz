@@ -8,6 +8,8 @@ export function PCViz({ width, height }) {
   const [hoveredBubbleTopic, setHoveredBubbleTopic] = useState('standard')
   const [hoveredWord, setHoveredWord] = useState('')
 
+  console.log(hoveredBubbleTopic, 'HOVERED BUBBLE TOPIC')
+
   const margins = {
     top: 50,
     right: 50,
@@ -122,27 +124,48 @@ export function PCViz({ width, height }) {
     .range(d3.range(margins.top, height - margins.bottom, 20))
 
   return (
-    // BUBBLES DIV
     <div style={{ display: 'flex', backgroundColor: '#F6F6F6' }}>
+      {/*  BUBBLES DIV */}
       <div>
         <BubbleTitle>Intertopic Distance Map (via multidimensional scaling)</BubbleTitle>
         <svg width={width} height={height}>
-          <line
-            x1={margins.left}
-            y1={height / 2}
-            x2={width - margins.right}
-            y2={height / 2}
-            stroke="#BDBDBD"
-            opacity={0.8}
-          />
-          <line
-            x1={width / 2}
-            y1={margins.top}
-            x2={width / 2}
-            y2={height - margins.bottom}
-            stroke="#BDBDBD"
-            opacity={0.8}
-          />
+          {/* AXIS AND LABELS */}
+          <g>
+            <line
+              x1={margins.left}
+              y1={height / 2}
+              x2={width - margins.right}
+              y2={height / 2}
+              stroke="#BDBDBD"
+              opacity={0.8}
+            />
+            <line
+              x1={width / 2}
+              y1={margins.top}
+              x2={width / 2}
+              y2={height - margins.bottom}
+              stroke="#BDBDBD"
+              opacity={0.8}
+            />
+            <text
+              x={width / 2 + 6}
+              y={margins.top + 10}
+              fontSize={11}
+              fill={'#C4C4C4'}
+              textAnchor={'start'}
+            >
+              PC1
+            </text>
+            <text
+              x={margins.left}
+              y={height / 2 + 15}
+              fontSize={11}
+              fill={'#C4C4C4'}
+              textAnchor={'start'}
+            >
+              PC2
+            </text>
+          </g>
           {bubbleData.map((d, i) => (
             <g key={i}>
               <circle
@@ -157,12 +180,22 @@ export function PCViz({ width, height }) {
                     : '#61BFE4'
                 }
                 opacity={
-                  hoveredTextTopic === 'standard' ||
-                  hoveredBubbleTopic === d.topic ||
-                  hoveredTextTopic === d.topic
+                  hoveredTextTopic === 'standard' || hoveredTextTopic === d.topic
                     ? 0.7
-                    : 0.15
+                    : hoveredBubbleTopic !== d.topic
+                    ? 0.15
+                    : 0.7
                 }
+                // opacity={
+                //   hoveredBubbleTopic === d.topic
+                //     ? 0.7
+                //     : hoveredBubbleTopic === 'standard'
+                //     ? 0.7
+                //     : hoveredTextTopic === d.topic
+                //     ? 0.7
+                //     : 0.15
+                // }
+
                 strokeWidth={
                   hoveredTextTopic === 'standard' ? 0 : d.topic === hoveredTextTopic ? 3 : 0
                 }
@@ -206,6 +239,11 @@ export function PCViz({ width, height }) {
       <div>
         <BarTitle>Top 30 Most Salient terms</BarTitle>
         <svg width={width} height={height}>
+          {/* {range(0, 10000, 2000).map((d) => (
+            <text key={d} x={margins.left + 15 + xScaleBars(d)} y={margins.top}>
+              {d}
+            </text>
+          ))} */}
           {orderedData
             .filter((d) => d.topic === hoveredBubbleTopic)
             .map((d) =>

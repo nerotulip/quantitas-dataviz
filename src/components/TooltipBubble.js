@@ -1,14 +1,14 @@
 import React from 'react'
 
-export function TooltipBubble({ hoveredBubble, x, y, colorScale }) {
+export function TooltipBubble({ hoveredBubble, colorScale }) {
   const styles = {
-    left: `${x + 5}px`,
-    top: `${y - 690}px`,
-    position: 'relative',
+    left: `${hoveredBubble.x + 10}px`,
+    top: `${hoveredBubble.y - 90}px`,
+    position: 'absolute',
     width: '200px',
 
     color: 'black',
-    'box-shadow': `0 4px 14px`,
+    'box-shadow': '0 4px 14px rgba(0,0,0,0.3) ',
     'border-radius': 15,
     'background-color': '#FFFEFE',
     'text-align': 'left',
@@ -26,7 +26,7 @@ export function TooltipBubble({ hoveredBubble, x, y, colorScale }) {
           <tr>
             <td colSpan="1">Reviews</td>
           </tr>
-          <tr>
+          <tr style={{ fontSize: 18, fontWeight: 'bold' }}>
             <td colSpan="1">{hoveredBubble.nReviews}</td>
           </tr>
         </tbody>

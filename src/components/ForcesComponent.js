@@ -20,7 +20,7 @@ export function ForcesComponent({ width, height, clustersGrouped, circleScale })
     .range(['#B2D329', '#FF9900', '#61BFE4', '#5768FF', '#589322', '#BA3AE1', '#FF5A5A'])
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <svg width={width} height={height}>
         {/* GHOST CIRCLES, STROKE EFFECT */}
         <g>

@@ -107,7 +107,8 @@ export function BubblesForce({ width, height }) {
 
   return (
     <div style={{ backgroundColor: '#F6F6F6' }}>
-      <div style={{ width: '200px' }}>
+      <div className="select" style={{ position: 'absolute', left: '50px' }}>
+        {/* SELECT */}
         <select
           className="search_categories"
           id="search_categories"

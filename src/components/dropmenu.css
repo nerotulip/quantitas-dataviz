@@ -1,4 +1,4 @@
-.search_categories {
+/* .search_categories {
   font-size: 22px;
   width: 310px;
   padding: 10px 8px 10px 14px;
@@ -7,4 +7,35 @@
   border: 1px solid #ccc;
   border-radius: 15px;
   position: relative;
+} */
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 10px 8px 10px 8px;
+  margin: 0;
+  width: 100%;
+  color: white;
+
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.select {
+  width: 300px;
+
+  border-radius: 15px;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #3e3e3e;
+  color: white;
 }
