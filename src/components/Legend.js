@@ -16,7 +16,7 @@ export function Legend({ width, height }) {
   return (
     <div>
       <div className="TooltipBubble" style={styles}>
-        ofelia
+        Legend
       </div>
     </div>
   )

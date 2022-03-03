@@ -24,7 +24,9 @@ export function TooltipBubble({ hoveredBubble, colorScale }) {
         </thead>
         <tbody>
           <tr>
-            <td colSpan="1">Reviews</td>
+            <td colSpan="1" style={{ color: '#7C7C7C', fontSize: 12 }}>
+              Reviews
+            </td>
           </tr>
           <tr style={{ fontSize: 18, fontWeight: 'bold' }}>
             <td colSpan="1">{hoveredBubble.nReviews}</td>

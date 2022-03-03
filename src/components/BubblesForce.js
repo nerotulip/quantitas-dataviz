@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import * as d3 from 'd3'
 import { groupBy } from 'lodash'
 import * as forceData from '../data/clustersLau.json'
+import * as provinceData from '../data/clustersFinal.json'
 import { Legend } from './Legend'
 import { ForcesComponent } from './ForcesComponent'
 import './dropmenu.css'
@@ -9,10 +10,10 @@ import './dropmenu.css'
 export function BubblesForce({ width, height }) {
   const [selectedZone, setSelectedZone] = useState('aalst')
 
-  const uniqueZones = [...new Set(forceData.map((d) => d.zone))]
+  const uniqueZones = [...new Set(provinceData.map((d) => d.zone))]
   console.log(uniqueZones, 'UNIQUE ZONES')
 
-  const dataFiltered = forceData.filter((d) => d.zone === selectedZone)
+  const dataFiltered = provinceData.filter((d) => d.zone === selectedZone)
 
   const clustersGrouped = groupBy(dataFiltered, (d) => d.clusterId)
   console.log(clustersGrouped, 'AAA')

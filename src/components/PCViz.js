@@ -281,7 +281,7 @@ export function PCViz({ width, height }) {
                     fontSize={12}
                     textAnchor="end"
                     fontWeight={
-                      hoveredWord === '' ? 'regulare' : hoveredWord === w.word ? 'bold' : 'regular'
+                      hoveredWord === '' ? 'regular' : hoveredWord === w.word ? 'bold' : 'regular'
                     }
                     opacity={hoveredWord === '' ? 1 : hoveredWord === w.word ? 1 : 0.5}
                     onMouseEnter={() => {
