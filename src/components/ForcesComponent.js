@@ -28,7 +28,7 @@ export function ForcesComponent({ width, height, clustersGrouped, circleScale })
             clustersGrouped[index].map((d, i) => (
               <circle
                 key={i}
-                r={circleScale(d.nReviews)}
+                r={circleScale(d.percentage)}
                 index={i}
                 cx={d.x}
                 cy={d.y}
@@ -45,7 +45,7 @@ export function ForcesComponent({ width, height, clustersGrouped, circleScale })
           clustersGrouped[index].map((bubble, i) => (
             <circle
               key={i}
-              r={circleScale(bubble.nReviews)}
+              r={circleScale(bubble.percentage)}
               index={i}
               cx={bubble.x}
               cy={bubble.y}
@@ -59,12 +59,7 @@ export function ForcesComponent({ width, height, clustersGrouped, circleScale })
         )}
       </svg>
       {hoveredBubble ? (
-        <TooltipBubble
-          hoveredBubble={hoveredBubble}
-          x={hoveredBubble.x}
-          y={hoveredBubble.y}
-          colorScale={colorScale}
-        />
+        <TooltipBubble hoveredBubble={hoveredBubble} colorScale={colorScale} />
       ) : null}
     </div>
   )
